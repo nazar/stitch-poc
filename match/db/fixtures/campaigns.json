@@ -1,0 +1,14 @@
+{
+  "campaigns": [
+    {
+      "id": 1,
+      "name": "first campaign",
+      "specId": "campaign1"
+    },
+    {
+      "id": 2,
+      "name": "second campaign",
+      "specId": "campaign2"
+    }
+  ]
+}

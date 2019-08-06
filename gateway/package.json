@@ -1,0 +1,22 @@
+{
+  "name": "campaigns",
+  "scripts": {
+    "start": "nodemon --watch src src/index.js",
+    "migrate": "yarn knex --knexfile db/knexfile.js",
+    "migrate:make": "yarn migrate migrate:make",
+    "migrate:latest": "yarn migrate migrate:latest",
+    "migrate:rollback": "yarn migrate migrate:rollback",
+    "seed": "node ./db/loadFixtures.js"
+  },
+  "dependencies": {
+    "apollo-server": "latest",
+    "graphql": "latest",
+    "graphql-iso-date": "latest",
+    "apollo-link-http": "latest",
+    "node-fetch": "latest",
+    "lodash": "4.17.15"
+  },
+  "devDependencies": {
+    "nodemon": "latest"
+  }
+}

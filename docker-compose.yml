@@ -1,0 +1,85 @@
+version: '3'
+services:
+  # Campaigns micro-service
+  campaigns:
+    build:
+      context: ./campaigns
+    volumes:
+      - /app/node_modules/
+      - gql-poc3-campaigns:/app:nocopy
+    depends_on:
+      - db-campaigns
+      - redis
+    ports: ["3011:3000"]
+
+  # canonical campaigns db
+  db-campaigns:
+    image: postgres:11.1-alpine
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=campaigns
+
+  # gateway stis infront of campaigns and any other microservice
+  gateway:
+    build:
+      context: ./gateway
+    depends_on:
+      - campaigns
+    volumes:
+      - /app/node_modules/
+      - gql-poc3-gateway:/app:nocopy
+
+  # match service
+  match:
+    build:
+      context: ./match
+    depends_on:
+      - db-match
+      - redis
+      - gateway
+    volumes:
+      - /app/node_modules/
+      - gql-poc3-match:/app:nocopy
+    ports: ["3010:3000"]
+
+  # match db
+  db-match:
+    image: postgres:11.1-alpine
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=match
+
+  # match service
+  evoke:
+    build:
+      context: ./evoke
+    depends_on:
+      - db-evoke
+      - redis
+      - gateway
+    volumes:
+      - /app/node_modules/
+      - gql-poc3-evoke:/app:nocopy
+
+  # match db
+  db-evoke:
+    image: postgres:11.1-alpine
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=evoke
+
+  # Redis database for scrapper inter-app rsmq based messaging
+  redis:
+    image: redis:4.0.10-alpine
+    ports: ["63795:6379"]
+
+
+volumes:
+  gql-poc3-match:
+    external: true
+  gql-poc3-evoke:
+    external: true
+  gql-poc3-campaigns:
+    external: true
+  gql-poc3-gateway:
+    external: true

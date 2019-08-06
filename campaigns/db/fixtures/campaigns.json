@@ -1,0 +1,21 @@
+{
+  "campaigns": [
+    {
+      "name": "first campaign",
+      "flight_start_date": "2018-04-25 04:00:00",
+      "flight_end_date": "2018-05-25 04:00:00",
+      "investment": 500,
+      "ws_number": "WS337-2018",
+      "datorama_campaign_name": "FirstCampaign1"
+    },
+    {
+      "name": "second campaign",
+      "flight_start_date": "2018-05-25 04:00:00",
+      "flight_end_date": "2018-06-25 04:00:00",
+      "ws_number": "345435",
+      "datorama_campaign_name": "SecondCampaign1",
+      "user_share": true,
+      "investment": 5000
+    }
+  ]
+}
