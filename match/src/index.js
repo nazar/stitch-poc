@@ -109,8 +109,8 @@ const resolvers = {
   const extendedResolvers = {
     Query: {
       campaigns: async (obj, { filter }, context, info) => {
-        // delegate to getCampaigns ONLY IF filter.hasOffers and filter.name ARE BOTH SET
-        if (filter.name && filter.hasOffers) {
+        // delegate to getCampaigns ONLY IF filter.hasOffers is true
+        if (filter.hasOffers) {
           return Bluebird.resolve(getCampaigns({ filter }))
             .mapSeries((campaign) => campaign.id)
             .then(campaignIds => info.mergeInfo.delegateToSchema({
