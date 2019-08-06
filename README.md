@@ -1,4 +1,6 @@
-# Apollo GraphQL Federation PoC
+# Apollo GraphQL Stitching PoC
+
+![overview](./docs/microservices-overview.png)
 
 ## Developer setup
 
