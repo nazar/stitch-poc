@@ -24,7 +24,6 @@ const typeDefs = gql`
     # TODO - this might not work - see Campaign Required field Definitions in main README.md
     campaign(id: ID!): Campaign! @auth
     campaigns(filter: CampaignFilterInput): [Campaign]
-    campaignsById(ids: [ID!]): [Campaign]
   }
   
   type Mutation {
@@ -44,6 +43,7 @@ const typeDefs = gql`
   }
   
   input CampaignFilterInput {
+    ids: [ID!]
     name: String
   }
   
@@ -58,8 +58,7 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     campaign: async (obj, { id }, { loader }) => loader.campaignsById.load(id),
-    campaigns: async (obj, { filter }) => getCampaigns({ filter }),
-    campaignsById: async(obj, { ids }, { loader }) => loader.campaignsById.loadMany(ids)
+    campaigns: async (obj, { filter }) => getCampaigns({ filter })
   },
   Mutation: {
     createCampaign: async (obj, { input }) => Bluebird.resolve(createCampaign({ input })).tap(emitCampaignUpdate),

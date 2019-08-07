@@ -8,5 +8,9 @@ module.exports = function({ filter }) {
     const { name } = filter;
 
     name && query.where({ name });
+
+    const { ids } = filter;
+
+    !(_.isEmpty(ids)) && query.whereIn('id', ids);
   })
 };

@@ -112,13 +112,19 @@ const resolvers = {
         // delegate to getCampaigns ONLY IF filter.hasOffers is true
         if (filter.hasOffers) {
           return Bluebird.resolve(getCampaigns({ filter }))
+            // technically we don't need a shadow table here as the campaign IDS can be
+            // inferred from select distinct offers.campaignId
+            // Keeping shadow table logic here for example
             .mapSeries((campaign) => campaign.id)
             .then(campaignIds => info.mergeInfo.delegateToSchema({
               schema: gatewaySchema,
               operation: 'query',
-              fieldName: 'campaignsById',
+              fieldName: 'campaigns',
               args: {
-                ids: campaignIds
+                filter: {
+                  ids: campaignIds,
+                  name: filter.name
+                }
               },
               context,
               info
@@ -162,8 +168,7 @@ const resolvers = {
       gatewaySchema,
       extendedSchemaForStitching
     ],
-    resolvers: extendedResolvers,
-    mergeDirectives: true
+    resolvers: extendedResolvers
   });
 
   const server = new ApolloServer({
